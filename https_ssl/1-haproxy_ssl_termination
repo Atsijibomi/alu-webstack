@@ -32,13 +32,18 @@ defaults
         errorfile 502 /etc/haproxy/errors/502.http
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
-frontend http
+frontend http-in
         bind *:80
-        bind *:443 ssl crt /etc/letsencrypt/live/www.maazeez.tech/combined.pem
+        bind *:443 ssl crt /etc/letsencrypt/live/www.athanson.tech/fullchain.pem
         mode http
-        default_backend www-backend
+        default_backend web_servers
 
-backend www-backend
+frontend https-frontend
+        bind *:443 ssl crt /etc/letsencrypt/live/www.athanson.tech/fullchain.pem
+        mode http
+        default_backend web_servers
+
+backend web_servers
         balance roundrobin
-        server 5688-web-01 54.160.180.215:80 check
-        server 5688-web-02 34.229.157.116:80 check
+        server 5693-web-01 18.206.169.17:80 check
+        server 5693-web-02 52.23.231.219:80 check
